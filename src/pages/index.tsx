@@ -6,6 +6,26 @@ import { date } from "zod";
 
 import { api } from "~/utils/api";
 
+const CreatePostWizard = () => {
+  const { user } = useUser();
+
+  if (!user) return null;
+
+  return (
+    <div className="flex w-full gap-3">
+      <img
+        src={user.profileImageUrl}
+        alt="Profile image"
+        className="h-16 w-16 rounded-full"
+      />
+      <input
+        className="grow bg-transparent"
+        placeholder="What's on your mind?"
+      />
+    </div>
+  );
+};
+
 const Home: NextPage = () => {
   const { data, isLoading } = api.posts.getAll.useQuery();
 
@@ -29,7 +49,7 @@ const Home: NextPage = () => {
                 <SignInButton />
               </div>
             )}
-            {!!user.isSignedIn && <SignOutButton />}
+            {!!user.isSignedIn && <CreatePostWizard />}
           </div>
           <div className="flex flex-col">
             {[...data, ...data]?.map((post) => (
